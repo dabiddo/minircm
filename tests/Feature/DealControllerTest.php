@@ -20,7 +20,7 @@ describe('DealController', function () {
             'contact_id' => $this->contact->id,
         ]);
 
-        $response = $this->actingAs($this->user)->get("/api/v1/contacts/{$this->contact->id}/deals");
+        $response = $this->actingAs($this->user)->get('/api/v1/deals');
         $response->assertStatus(200)->assertJsonCount(5, 'data');
         $response->assertJsonStructure(['data' => [['id', 'title', 'contact_id', 'created_at', 'updated_at']]]);
 
@@ -35,7 +35,7 @@ describe('DealController', function () {
             'status' => 'open',
         ];
 
-        $response = $this->actingAs($this->user)->post("/api/v1/contacts/{$this->contact->id}/deals", $dealData);
+        $response = $this->actingAs($this->user)->post('/api/v1/deals', $dealData);
         $response->assertStatus(201);
         $this->assertDatabaseHas('deals', $dealData);
     });

@@ -34,12 +34,8 @@ class DealController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Contact $contact, Deal $deal)
+    public function show(Deal $deal)
     {
-        if ($deal->contact_id !== $contact->id) {
-            return response()->json(null, 404);
-        }
-
         return response()->json(['data' => $deal], 200);
     }
 
@@ -56,12 +52,8 @@ class DealController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contact $contact, Deal $deal)
+    public function destroy(Deal $deal)
     {
-        if ($deal->contact_id !== $contact->id) {
-            return response()->json(null, 404);
-        }
-
         $deal->delete();
 
         return response()->json(null, 204);

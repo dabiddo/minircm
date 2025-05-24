@@ -66,7 +66,7 @@ describe('ContactController', function () {
             'phone_number' => '1234567890',
         ];
 
-        $response = $this->actingAs($this->user)->put("/api/v1/companies/{$this->company->id}/contacts/{$contact->id}", $updatedData);
+        $response = $this->actingAs($this->user)->put("/api/v1/contacts/{$contact->id}", $updatedData);
         $response->assertStatus(200);
         $this->assertDatabaseHas('contacts', $updatedData);
     });
