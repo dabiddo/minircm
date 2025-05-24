@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -18,15 +19,16 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Company $company, Request $request)
     {
         $validatedData = $request->validate([
-            'company_id' => 'required|integer|exists:companies,id',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:contacts,email',
             'phone_number' => 'nullable|string|max:15',
         ]);
+
+        $validatedData['company_id'] = $company->id;
         $contact = Contact::create($validatedData);
 
         return response()->json(['data' => $contact], 201);

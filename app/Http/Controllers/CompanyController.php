@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
-use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
@@ -18,14 +19,9 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostCompanyRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'domain' => 'required|string|max:255|unique:companies,domain',
-        ]);
-
-        $company = Company::create($validatedData);
+        $company = Company::create($request->validated());
 
         return response()->json($company, 201);
     }
@@ -41,14 +37,10 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company)
     {
-        $validatedData = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'domain' => 'sometimes|required|string|max:255|unique:companies,domain,'.$company->id,
-        ]);
 
-        $company->update($validatedData);
+        $company->update($request->validated());
 
         return response()->json($company, 200);
     }
