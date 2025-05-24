@@ -12,7 +12,7 @@ class DealController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(['data' => Deal::all()], 200);
     }
 
     /**
@@ -20,7 +20,17 @@ class DealController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'contact_id' => 'required|integer|exists:contacts,id',
+            'title' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0',
+            'currency' => 'required|string|max:3',
+            'status' => 'required|string|in:open,closed-won,closed-lost',
+        ]);
+
+        $deal = Deal::create($validatedData);
+
+        return response()->json(['data' => $deal], 201);
     }
 
     /**
@@ -28,7 +38,7 @@ class DealController extends Controller
      */
     public function show(Deal $deal)
     {
-        //
+        return response()->json(['data' => $deal], 200);
     }
 
     /**
@@ -36,7 +46,16 @@ class DealController extends Controller
      */
     public function update(Request $request, Deal $deal)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'sometimes|string|max:255',
+            'amount' => 'sometimes|numeric|min:0',
+            'currency' => 'sometimes|string|max:3',
+            'status' => 'sometimes|string|in:open,closed-won,closed-lost',
+        ]);
+
+        $deal->update($validatedData);
+
+        return response()->json(['data' => $deal], 200);
     }
 
     /**
@@ -44,6 +63,8 @@ class DealController extends Controller
      */
     public function destroy(Deal $deal)
     {
-        //
+        $deal->delete();
+
+        return response()->json(null, 204);
     }
 }

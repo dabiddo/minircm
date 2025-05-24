@@ -2,6 +2,9 @@
 
 use App\Models\Contact;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
 
 describe('ContactController', function () {
     beforeEach(function () {
@@ -65,7 +68,7 @@ describe('ContactController', function () {
         $contact = Contact::factory()->create();
         $response = $this->actingAs($this->user)->delete("/api/v1/contacts/{$contact->id}");
         $response->assertStatus(204);
-        $this->assertNotNull(Contact::withTrashed()->find($contact->id)->deleted_at);
+        $this->assertSoftDeleted($contact);
     });
 
     it('should return 404 for non-existent contact', function () {

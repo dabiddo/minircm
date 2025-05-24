@@ -22,7 +22,7 @@ class DealFactory extends Factory
             'title' => $this->faker->sentence(),
             'amount' => $this->faker->randomFloat(2, 100, 10000),
             'currency' => $this->faker->currencyCode,
-            'status' => $this->faker->randomElement(['open', 'closed', 'pending']),
+            'status' => $this->faker->randomElement(['open', 'closed-won', 'closed-lost']),
         ];
     }
 }

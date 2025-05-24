@@ -2,6 +2,9 @@
 
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
 
 describe('CompanyController', function (): void {
     it('can list all companies', function () {
@@ -74,7 +77,7 @@ describe('CompanyController', function (): void {
         $response = $this->actingAs($user)->deleteJson("/api/v1/companies/{$company->id}");
 
         $response->assertStatus(204);
-        $this->assertNotNull(Company::withTrashed()->find($company->id)->deleted_at);
+        $this->assertSoftDeleted($company);
     });
 
     it('returns 404 when company not found', function () {
