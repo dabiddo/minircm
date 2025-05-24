@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostDealRequest;
+use App\Http\Requests\UpdateDealRequest;
+use App\Models\Contact;
 use App\Models\Deal;
-use Illuminate\Http\Request;
 
 class DealController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Contact $contact)
     {
         return response()->json(['data' => Deal::all()], 200);
     }
@@ -18,15 +20,10 @@ class DealController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Contact $contact, PostDealRequest $request)
     {
-        $validatedData = $request->validate([
-            'contact_id' => 'required|integer|exists:contacts,id',
-            'title' => 'required|string|max:255',
-            'amount' => 'required|numeric|min:0',
-            'currency' => 'required|string|max:3',
-            'status' => 'required|string|in:open,closed-won,closed-lost',
-        ]);
+        $validatedData = $request->validated();
+        $validatedData['contact_id'] = $contact->id;
 
         $deal = Deal::create($validatedData);
 
@@ -36,7 +33,7 @@ class DealController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Deal $deal)
+    public function show(Contact $contact, Deal $deal)
     {
         return response()->json(['data' => $deal], 200);
     }
@@ -44,16 +41,10 @@ class DealController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Deal $deal)
+    public function update(Contact $contact, UpdateDealRequest $request, Deal $deal)
     {
-        $validatedData = $request->validate([
-            'title' => 'sometimes|string|max:255',
-            'amount' => 'sometimes|numeric|min:0',
-            'currency' => 'sometimes|string|max:3',
-            'status' => 'sometimes|string|in:open,closed-won,closed-lost',
-        ]);
 
-        $deal->update($validatedData);
+        $deal->update($request->validated());
 
         return response()->json(['data' => $deal], 200);
     }
@@ -61,7 +52,7 @@ class DealController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Deal $deal)
+    public function destroy(Contact $contact, Deal $deal)
     {
         $deal->delete();
 

@@ -16,6 +16,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('v1')->group(function () {
         Route::apiResource('companies', CompanyController::class);
         Route::apiResource('companies/{company}/contacts', ContactController::class);
-        Route::apiResource('deals', DealController::class);
+        Route::apiResource('contacts/{contact}/deals', DealController::class);
     });
 });
