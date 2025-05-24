@@ -34,7 +34,7 @@ class DealController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Deal $deal)
+    public function show(Contact $contact, Deal $deal)
     {
         return response()->json(['data' => $deal], 200);
     }
@@ -52,7 +52,7 @@ class DealController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Deal $deal)
+    public function destroy(Contact $contact, Deal $deal)
     {
         $deal->delete();
 
