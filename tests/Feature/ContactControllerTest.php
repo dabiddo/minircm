@@ -16,7 +16,7 @@ describe('ContactController', function () {
 
     it('should fetch a list of contacts', function () {
         Contact::factory()->count(10)->create();
-        $response = $this->actingAs($this->user)->get("/api/v1/companies/{$this->company->id}/contacts");
+        $response = $this->actingAs($this->user)->get('/api/v1/contacts');
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'data' => [
@@ -81,7 +81,7 @@ describe('ContactController', function () {
     });
 
     it('should return 404 for non-existent contact', function () {
-        $response = $this->actingAs($this->user)->get("/api/v1/companies/{$this->company->id}/contacts/999999");
+        $response = $this->actingAs($this->user)->get('/api/v1/contacts/999999');
         $response->assertStatus(404);
     });
 
