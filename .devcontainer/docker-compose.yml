@@ -1,0 +1,40 @@
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: minicrm_app #name of the image
+    environment:
+        SERVER_NAME: ":80"
+    # uncomment the following line if you want to run this in a production environment
+    # restart: always
+    ports:
+      - "80:80" # HTTP
+      - "443:443" # HTTPS
+      - "443:443/udp" # HTTP/3
+    volumes:
+      - ../:/app
+      - caddy_data:/data
+      - caddy_config:/config
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: dbroot
+      MYSQL_DATABASE: minicrm
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbpassword
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql:cached
+
+# Volumes needed for Caddy certificates and configuration
+volumes:
+  caddy_data:
+  caddy_config:
+  db-data:
