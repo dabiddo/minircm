@@ -15,7 +15,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('v1')->group(function () {
         Route::apiResource('companies', CompanyController::class);
-        Route::apiResource('companies/{company}/contacts', ContactController::class);
+        Route::apiResource('companies/{company}/contacts', ContactController::class)->only(['store', 'update']);
+        Route::apiResource('contacts', ContactController::class)->only(['index', 'show', 'destroy']);
         Route::apiResource('contacts/{contact}/deals', DealController::class);
     });
 });
