@@ -22,6 +22,7 @@ class PostDealRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'contact_id' => 'required|integer|exists:contacts,id',
             'title' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'currency' => 'required|string|max:3',

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
-use App\Models\Company;
 use App\Models\Contact;
 
 class ContactController extends Controller
@@ -20,10 +19,9 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Company $company, StoreContactRequest $request)
+    public function store(StoreContactRequest $request)
     {
         $validatedData = $request->validated();
-        $validatedData['company_id'] = $company->id;
         $contact = Contact::create($validatedData);
 
         return response()->json(['data' => $contact], 201);
@@ -40,14 +38,8 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Company $company, UpdateContactRequest $request, Contact $contact)
+    public function update(UpdateContactRequest $request, Contact $contact)
     {
-        if ($contact->company_id !== $company->id) {
-            return response()->json([
-                'message' => 'This contact does not belong to the specified company.',
-            ], 403);
-        }
-
         $contact->update($request->validated());
 
         return response()->json($contact, 200);
