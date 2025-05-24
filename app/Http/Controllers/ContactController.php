@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Request;
 
 class ContactController extends Controller
 {
@@ -54,5 +55,13 @@ class ContactController extends Controller
         $contact->delete();
 
         return response()->json(null, 204);
+    }
+
+    // TODO: test and unit test
+    public function deals(Request $request, Contact $contact)
+    {
+        $deals = $contact->deals;
+
+        return response()->json($deals);
     }
 }

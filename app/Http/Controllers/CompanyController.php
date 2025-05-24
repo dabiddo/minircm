@@ -69,5 +69,7 @@ class CompanyController extends Controller
 
         $contact->company()->associate($company);
         $contact->save();
+
+        return response()->json($contact, 201);
     }
 }
