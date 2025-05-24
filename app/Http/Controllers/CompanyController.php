@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Request;
 
 class CompanyController extends Controller
 {
@@ -54,5 +56,18 @@ class CompanyController extends Controller
         $company->delete();
 
         return response()->json(null, 204);
+    }
+
+    // TOD: test and unit test
+    public function attachContact(Request $request, Company $company)
+    {
+        if ($request->has('contact_id')) {
+            $contact = Contact::find($request->input('contact_id'));
+        } else {
+            $contact = Contact::create($request->all());
+        }
+
+        $contact->company()->associate($company);
+        $contact->save();
     }
 }
