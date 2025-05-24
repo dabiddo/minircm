@@ -12,7 +12,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(['data' => Contact::all()], 200);
     }
 
     /**
@@ -20,7 +20,16 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'company_id' => 'required|integer|exists:companies,id',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:contacts,email',
+            'phone_number' => 'nullable|string|max:15',
+        ]);
+        $contact = Contact::create($validatedData);
+
+        return response()->json(['data' => $contact], 201);
     }
 
     /**
@@ -28,7 +37,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        //
+        return response()->json(['data' => $contact], 200);
     }
 
     /**
@@ -36,7 +45,16 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        //
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:contacts,email,'.$contact->id,
+            'phone_number' => 'nullable|string|max:15',
+        ]);
+
+        $contact->update($request->all());
+
+        return response()->json($contact, 200);
     }
 
     /**
@@ -44,6 +62,8 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
-        //
+        $contact->delete();
+
+        return response()->json(null, 204);
     }
 }
