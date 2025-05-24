@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\UpdateContactRequest;
 use App\Models\Company;
 use App\Models\Contact;
-use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -19,15 +20,9 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Company $company, Request $request)
+    public function store(Company $company, StoreContactRequest $request)
     {
-        $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:contacts,email',
-            'phone_number' => 'nullable|string|max:15',
-        ]);
-
+        $validatedData = $request->validated();
         $validatedData['company_id'] = $company->id;
         $contact = Contact::create($validatedData);
 
@@ -37,7 +32,7 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Contact $contact)
+    public function show(Company $company, Contact $contact)
     {
         return response()->json(['data' => $contact], 200);
     }
@@ -45,16 +40,10 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Company $company, UpdateContactRequest $request, Contact $contact)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:contacts,email,'.$contact->id,
-            'phone_number' => 'nullable|string|max:15',
-        ]);
 
-        $contact->update($request->all());
+        $contact->update($request->validated());
 
         return response()->json($contact, 200);
     }
@@ -62,7 +51,7 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contact $contact)
+    public function destroy(Company $company, Contact $contact)
     {
         $contact->delete();
 
