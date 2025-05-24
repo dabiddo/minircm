@@ -14,7 +14,9 @@ class DealController extends Controller
      */
     public function index(Contact $contact)
     {
-        return response()->json(['data' => Deal::all()], 200);
+        $contact->load('deals');
+
+        return response()->json(['data' => $contact->deals], 200);
     }
 
     /**
@@ -35,6 +37,10 @@ class DealController extends Controller
      */
     public function show(Contact $contact, Deal $deal)
     {
+        if ($deal->contact_id !== $contact->id) {
+            return response()->json(null, 404);
+        }
+
         return response()->json(['data' => $deal], 200);
     }
 
@@ -43,6 +49,9 @@ class DealController extends Controller
      */
     public function update(Contact $contact, UpdateDealRequest $request, Deal $deal)
     {
+        if ($deal->contact_id !== $contact->id) {
+            return response()->json(null, 404);
+        }
 
         $deal->update($request->validated());
 
@@ -54,6 +63,10 @@ class DealController extends Controller
      */
     public function destroy(Contact $contact, Deal $deal)
     {
+        if ($deal->contact_id !== $contact->id) {
+            return response()->json(null, 404);
+        }
+
         $deal->delete();
 
         return response()->json(null, 204);

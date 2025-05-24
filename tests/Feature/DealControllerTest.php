@@ -16,7 +16,9 @@ describe('DealController', function () {
 
     it('can list all the deals', function () {
 
-        Deal::factory(5)->create();
+        Deal::factory(5)->create([
+            'contact_id' => $this->contact->id,
+        ]);
 
         $response = $this->actingAs($this->user)->get("/api/v1/contacts/{$this->contact->id}/deals");
         $response->assertStatus(200)->assertJsonCount(5, 'data');
@@ -39,7 +41,9 @@ describe('DealController', function () {
     });
 
     it('list single deal', function () {
-        $deal = Deal::factory()->create();
+        $deal = Deal::factory()->create([
+            'contact_id' => $this->contact->id,
+        ]);
         $response = $this->actingAs($this->user)->get("/api/v1/contacts/{$this->contact->id}/deals/{$deal->id}");
         $response->assertStatus(200);
         $response->assertJson(['data' => ['id' => $deal->id, 'title' => $deal->title, 'contact_id' => $deal->contact_id]]);
@@ -47,7 +51,9 @@ describe('DealController', function () {
     });
 
     it('updates a deal', function () {
-        $deal = Deal::factory()->create();
+        $deal = Deal::factory()->create([
+            'contact_id' => $this->contact->id,
+        ]);
         $updatedData = [
             'title' => 'Updated Deal Title',
             'status' => 'closed-won',
@@ -59,7 +65,9 @@ describe('DealController', function () {
     });
 
     it('soft deletes a Deal', function () {
-        $deal = Deal::factory()->create();
+        $deal = Deal::factory()->create([
+            'contact_id' => $this->contact->id,
+        ]);
 
         $response = $this->actingAs($this->user)->delete("/api/v1/contacts/{$this->contact->id}/deals/{$deal->id}");
 
