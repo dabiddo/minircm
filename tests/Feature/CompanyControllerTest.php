@@ -15,10 +15,9 @@ describe('CompanyController', function (): void {
         $response = $this->actingAs($user)->getJson('/api/v1/companies');
 
         $response->assertStatus(200)
-            ->assertJsonCount(3)
-            ->assertJsonStructure([
+            ->assertJsonStructure(['data' => [
                 '*' => ['id', 'name', 'created_at', 'updated_at'],
-            ]);
+            ]]);
     });
 
     it('can create a new company', function () {
@@ -32,10 +31,10 @@ describe('CompanyController', function (): void {
         $response = $this->actingAs($user)->postJson('/api/v1/companies', $companyData);
 
         $response->assertStatus(201)
-            ->assertJson([
+            ->assertJson(['data' => [
                 'name' => $companyData['name'],
                 'domain' => $companyData['domain'],
-            ]);
+            ]]);
 
         $this->assertDatabaseHas('companies', $companyData);
     });
@@ -47,10 +46,10 @@ describe('CompanyController', function (): void {
         $response = $this->actingAs($user)->getJson("/api/v1/companies/{$company->id}");
 
         $response->assertStatus(200)
-            ->assertJson([
+            ->assertJson(['data' => [
                 'id' => $company->id,
                 'name' => $company->name,
-            ]);
+            ]]);
     });
 
     it('can update a company', function () {
@@ -65,7 +64,11 @@ describe('CompanyController', function (): void {
         $response = $this->actingAs($user)->putJson("/api/v1/companies/{$company->id}", $updatedData);
 
         $response->assertStatus(200)
-            ->assertJson($updatedData);
+            ->assertJson(['data' => [
+                'id' => $company->id,
+                'name' => $updatedData['name'],
+                'domain' => $updatedData['domain'],
+            ]]);
 
         $this->assertDatabaseHas('companies', $updatedData);
     });

@@ -42,6 +42,11 @@ class ContactController extends Controller
      */
     public function update(Company $company, UpdateContactRequest $request, Contact $contact)
     {
+        if ($contact->company_id !== $company->id) {
+            return response()->json([
+                'message' => 'This contact does not belong to the specified company.',
+            ], 403);
+        }
 
         $contact->update($request->validated());
 
@@ -53,6 +58,7 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
+
         $contact->delete();
 
         return response()->json(null, 204);

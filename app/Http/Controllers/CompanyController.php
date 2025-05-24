@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        return response()->json(Company::all(), 200);
+        return response()->json(['data' => Company::all()], 200);
     }
 
     /**
@@ -23,7 +24,7 @@ class CompanyController extends Controller
     {
         $company = Company::create($request->validated());
 
-        return response()->json($company, 201);
+        return response()->json(['data' => $company], 201);
     }
 
     /**
@@ -31,7 +32,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        return response()->json($company, 200);
+        return response()->json(['data' => $company], 200);
     }
 
     /**
@@ -42,7 +43,7 @@ class CompanyController extends Controller
 
         $company->update($request->validated());
 
-        return response()->json($company, 200);
+        return response()->json(['data' => $company], 200);
     }
 
     /**

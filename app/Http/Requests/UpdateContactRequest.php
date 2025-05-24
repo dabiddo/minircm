@@ -22,10 +22,10 @@ class UpdateContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:contacts,email',
-            'phone_number' => 'nullable|string|max:15',
+            'first_name' => 'sometimes|string|max:255',
+            'last_name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email|unique:contacts,email',
+            'phone_number' => 'sometimes|nullable|string|max:15',
         ];
     }
 }
