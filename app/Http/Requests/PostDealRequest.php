@@ -25,7 +25,6 @@ class PostDealRequest extends FormRequest
             'title' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'currency' => 'required|string|max:3',
-            'status' => 'required|string|in:open,closed-won,closed-lost',
         ];
     }
 }
