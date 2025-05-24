@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     image: minicrm_app #name of the image
     environment:
-        SERVER_NAME: ":80"
+      SERVER_NAME: ":80"
     # uncomment the following line if you want to run this in a production environment
     # restart: always
     ports:
@@ -32,6 +32,7 @@ services:
       - '3306:3306'
     volumes:
       - db-data:/var/lib/mysql:cached
+      - ./mysql-init:/docker-entrypoint-initdb.d
 
 # Volumes needed for Caddy certificates and configuration
 volumes:
