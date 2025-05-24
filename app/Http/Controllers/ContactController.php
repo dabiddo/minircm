@@ -34,7 +34,7 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Contact $contact)
+    public function show(Company $company, Contact $contact)
     {
         return response()->json(['data' => $contact], 200);
     }
@@ -52,7 +52,7 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contact $contact)
+    public function destroy(Company $company, Contact $contact)
     {
 
         $contact->delete();

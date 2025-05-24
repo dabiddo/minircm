@@ -16,7 +16,7 @@ describe('ContactController', function () {
 
     it('should fetch a list of contacts', function () {
         Contact::factory()->count(10)->create();
-        $response = $this->actingAs($this->user)->get('/api/v1/contacts');
+        $response = $this->actingAs($this->user)->get("/api/v1/companies/{$this->company->id}/contacts");
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'data' => [
@@ -66,7 +66,7 @@ describe('ContactController', function () {
             'phone_number' => '1234567890',
         ];
 
-        $response = $this->actingAs($this->user)->put("/api/v1/contacts/{$contact->id}", $updatedData);
+        $response = $this->actingAs($this->user)->put("/api/v1/companies/{$this->company->id}/contacts/{$contact->id}", $updatedData);
         $response->assertStatus(200);
         $this->assertDatabaseHas('contacts', $updatedData);
     });
@@ -81,7 +81,7 @@ describe('ContactController', function () {
     });
 
     it('should return 404 for non-existent contact', function () {
-        $response = $this->actingAs($this->user)->get('/api/v1/contacts/999999');
+        $response = $this->actingAs($this->user)->get("/api/v1/companies/{$this->company->id}/contacts/999999");
         $response->assertStatus(404);
     });
 
