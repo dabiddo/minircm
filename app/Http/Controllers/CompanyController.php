@@ -35,7 +35,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        return response()->json($company, 200);
     }
 
     /**
@@ -43,7 +43,14 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'domain' => 'sometimes|required|string|max:255|unique:companies,domain,'.$company->id,
+        ]);
+
+        $company->update($validatedData);
+
+        return response()->json($company, 200);
     }
 
     /**
@@ -51,6 +58,8 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        $company->delete();
+
+        return response()->json(null, 204);
     }
 }

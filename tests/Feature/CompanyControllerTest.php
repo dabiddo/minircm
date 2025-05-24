@@ -21,8 +21,7 @@ describe('CompanyController', function (): void {
     it('can create a new company', function () {
         $companyData = [
             'name' => 'Test Company',
-            'description' => 'Test Description',
-            'address' => 'Test Address',
+            'domain' => 'Test Domain',
         ];
 
         $user = User::factory()->create();
@@ -32,8 +31,7 @@ describe('CompanyController', function (): void {
         $response->assertStatus(201)
             ->assertJson([
                 'name' => $companyData['name'],
-                'description' => $companyData['description'],
-                'address' => $companyData['address'],
+                'domain' => $companyData['domain'],
             ]);
 
         $this->assertDatabaseHas('companies', $companyData);
@@ -58,8 +56,7 @@ describe('CompanyController', function (): void {
 
         $updatedData = [
             'name' => 'Updated Company Name',
-            'description' => 'Updated Description',
-            'address' => 'Updated Address',
+            'domain' => 'Updated Domain',
         ];
 
         $response = $this->actingAs($user)->putJson("/api/v1/companies/{$company->id}", $updatedData);
@@ -77,7 +74,7 @@ describe('CompanyController', function (): void {
         $response = $this->actingAs($user)->deleteJson("/api/v1/companies/{$company->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('companies', ['id' => $company->id]);
+        $this->assertNotNull(Company::withTrashed()->find($company->id)->deleted_at);
     });
 
     it('returns 404 when company not found', function () {
