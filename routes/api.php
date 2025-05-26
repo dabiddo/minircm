@@ -15,7 +15,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('v1')->group(function () {
         Route::apiResource('companies', CompanyController::class);
+        Route::post('/companies/{company}/contacts', [CompanyController::class, 'attachContact']);
         Route::apiResource('contacts', ContactController::class);
+        Route::get('contacts/{contact}/deals', [ContactController::class, 'deals']);
         Route::apiResource('deals', DealController::class);
     });
 });

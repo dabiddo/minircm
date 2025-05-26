@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
+use App\Services\ContactService;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -10,23 +13,19 @@ class ContactController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, ContactService $contactService)
     {
-        return response()->json(['data' => Contact::all()], 200);
+        $contacts = $contactService->searchAndFilter($request);
+
+        return response()->json(['data' => $contacts], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)
     {
-        $validatedData = $request->validate([
-            'company_id' => 'required|integer|exists:companies,id',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:contacts,email',
-            'phone_number' => 'nullable|string|max:15',
-        ]);
+        $validatedData = $request->validated();
         $contact = Contact::create($validatedData);
 
         return response()->json(['data' => $contact], 201);
@@ -43,16 +42,9 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(UpdateContactRequest $request, Contact $contact)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:contacts,email,'.$contact->id,
-            'phone_number' => 'nullable|string|max:15',
-        ]);
-
-        $contact->update($request->all());
+        $contact->update($request->validated());
 
         return response()->json($contact, 200);
     }
@@ -62,8 +54,16 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
+
         $contact->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function deals(Request $request, Contact $contact)
+    {
+        $deals = $contact->deals;
+
+        return response()->json(['data' => $deals]);
     }
 }

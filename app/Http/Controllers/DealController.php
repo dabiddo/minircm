@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostDealRequest;
+use App\Http\Requests\UpdateDealRequest;
 use App\Models\Deal;
+use App\Services\DealsService;
 use Illuminate\Http\Request;
 
 class DealController extends Controller
@@ -10,24 +13,19 @@ class DealController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, DealsService $dealsService)
     {
-        return response()->json(['data' => Deal::all()], 200);
+        $deals = $dealsService->searchAndFilter($request);
+
+        return response()->json(['data' => $deals], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostDealRequest $request)
     {
-        $validatedData = $request->validate([
-            'contact_id' => 'required|integer|exists:contacts,id',
-            'title' => 'required|string|max:255',
-            'amount' => 'required|numeric|min:0',
-            'currency' => 'required|string|max:3',
-            'status' => 'required|string|in:open,closed-won,closed-lost',
-        ]);
-
+        $validatedData = $request->validated();
         $deal = Deal::create($validatedData);
 
         return response()->json(['data' => $deal], 201);
@@ -44,16 +42,9 @@ class DealController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Deal $deal)
+    public function update(UpdateDealRequest $request, Deal $deal)
     {
-        $validatedData = $request->validate([
-            'title' => 'sometimes|string|max:255',
-            'amount' => 'sometimes|numeric|min:0',
-            'currency' => 'sometimes|string|max:3',
-            'status' => 'sometimes|string|in:open,closed-won,closed-lost',
-        ]);
-
-        $deal->update($validatedData);
+        $deal->update($request->validated());
 
         return response()->json(['data' => $deal], 200);
     }

@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostCompanyContact;
+use App\Http\Requests\PostCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Models\Contact;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -10,24 +15,25 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(Company::all(), 200);
+        $companies = Company::query();
+
+        if ($request->has('withTrashed') && $request->input('withTrashed') == 'true') {
+            $companies->withTrashed();
+        }
+
+        return response()->json(['data' => $companies->get()], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostCompanyRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'domain' => 'required|string|max:255|unique:companies,domain',
-        ]);
+        $company = Company::create($request->validated());
 
-        $company = Company::create($validatedData);
-
-        return response()->json($company, 201);
+        return response()->json(['data' => $company], 201);
     }
 
     /**
@@ -35,22 +41,18 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        return response()->json($company, 200);
+        return response()->json(['data' => $company], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company)
     {
-        $validatedData = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'domain' => 'sometimes|required|string|max:255|unique:companies,domain,'.$company->id,
-        ]);
 
-        $company->update($validatedData);
+        $company->update($request->validated());
 
-        return response()->json($company, 200);
+        return response()->json(['data' => $company], 200);
     }
 
     /**
@@ -61,5 +63,21 @@ class CompanyController extends Controller
         $company->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function attachContact(PostCompanyContact $request, Company $company)
+    {
+        if ($request->filled('contact_id')) {
+            $contact = Contact::find($request->input('contact_id'));
+
+            $contact->company()->associate($company);
+            $contact->save();
+        } else {
+            $validatedData = $request->validated();
+            $validatedData['company_id'] = $company->id;
+            $contact = Contact::create($validatedData);
+        }
+
+        return response()->json($contact, 201);
     }
 }
