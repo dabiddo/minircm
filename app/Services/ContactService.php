@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ContactService
 {
@@ -13,6 +14,12 @@ class ContactService
 
         // only email will have exact match search
         if ($request->filled('email')) {
+            $validated = $request->validate([
+                'email' => 'email',
+            ]);
+            if (! $validated) {
+                throw ValidationException::withMessages(['email' => 'Not a Valid Email']);
+            }
             $contacts->where('email', $request->input('email'));
         }
         if ($request->filled('first_name')) {
