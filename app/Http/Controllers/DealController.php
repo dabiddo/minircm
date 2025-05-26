@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostDealRequest;
 use App\Http\Requests\UpdateDealRequest;
 use App\Models\Deal;
+use App\Services\DealsService;
+use Illuminate\Http\Request;
 
 class DealController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, DealsService $dealsService)
     {
+        $deals = $dealsService->searchAndFilter($request);
 
-        return response()->json(['data' => Deal::all()], 200);
+        return response()->json(['data' => $deals], 200);
     }
 
     /**
