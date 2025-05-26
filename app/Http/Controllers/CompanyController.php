@@ -124,7 +124,41 @@ class CompanyController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/v1/companies/{company}",
+     *     summary="Get a specific company by ID",
+     *     description="Returns a single company's details",
+     *     operationId="showCompany",
+     *     tags={"Company"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="company",
+     *         in="path",
+     *         description="ID of company to return",
+     *         required=true,
+     *
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="data", ref="#/components/schemas/Company")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Company not found"
+     *     )
+     * )
      */
     public function show(Company $company)
     {
@@ -132,7 +166,69 @@ class CompanyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/v1/companies/{company}",
+     *     summary="Update a company",
+     *     description="Updates an existing company's information",
+     *     operationId="updateCompany",
+     *     tags={"Company"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="company",
+     *         in="path",
+     *         required=true,
+     *         description="ID of company to update",
+     *
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *
+     *         @OA\JsonContent(
+     *             type="object",
+     *
+     *             @OA\Property(property="name", type="string", example="Acme Corp"),
+     *             @OA\Property(property="domain", type="string", example="www.acme.com")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Company updated successfully",
+     *
+     *         @OA\JsonContent(
+     *             type="object",
+     *
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Acme Corp"),
+     *                 @OA\Property(property="domain", type="string", example="www.acme.com"),
+     *                 @OA\Property(property="updated_at", type="string", format="datetime")
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Company not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
@@ -143,7 +239,40 @@ class CompanyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/v1/companies/{company}",
+     *     summary="Soft delete a company",
+     *     description="Soft deletes the specified company record",
+     *     operationId="deleteCompany",
+     *     tags={"Company"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="company",
+     *         in="path",
+     *         description="ID of company to soft delete",
+     *         required=true,
+     *
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=204,
+     *         description="Company successfully deleted"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Company not found"
+     *     )
+     * )
      */
     public function destroy(Company $company)
     {
