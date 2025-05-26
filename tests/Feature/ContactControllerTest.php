@@ -107,4 +107,21 @@ describe('ContactController', function () {
             $response->assertJsonPath('data.*.id', fn ($ids) => in_array($deal->id, $ids));
         }
     });
+
+    it('can show deleted contacts when withTrashed parameter is true', function () {
+        $contact = Contact::factory()->create();
+        $user = User::factory()->create();
+        $contact->delete();
+
+        $response = $this->actingAs($user)->getJson('/api/v1/contacts?withTrashed=true');
+        $response->assertStatus(200);
+
+        $responseData = $response->json('data.0');
+
+        expect($responseData['id'])->toBe($contact->id);
+        expect($responseData['first_name'])->toBe($contact->first_name);
+        expect($responseData['last_name'])->toBe($contact->last_name);
+        expect($responseData['email'])->toBe($contact->email);
+        expect($responseData['deleted_at'])->not->toBeNull();
+    });
 });

@@ -34,6 +34,10 @@ class ContactService
             $contacts->where('phone_number', 'like', '%'.$request->phone_number.'%');
         }
 
+        if ($request->has('withTrashed') && $request->input('withTrashed') == 'true') {
+            $contacts->withTrashed();
+        }
+
         return $contacts->get();
     }
 }
