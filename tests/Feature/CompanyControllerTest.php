@@ -99,6 +99,22 @@ describe('CompanyController', function (): void {
             ->assertJsonValidationErrors(['name']);
     });
 
+    it('can show deleted company when withTrashed parameter is true', function () {
+        $company = Company::factory()->create();
+        $user = User::factory()->create();
+        $company->delete();
+
+        $response = $this->actingAs($user)->getJson('/api/v1/companies?withTrashed=true');
+        $response->assertStatus(200);
+
+        $responseData = $response->json('data.0');
+
+        expect($responseData['id'])->toBe($company->id);
+        expect($responseData['name'])->toBe($company->name);
+        expect($responseData['domain'])->toBe($company->domain);
+        expect($responseData['deleted_at'])->not->toBeNull();
+    });
+
 });
 
 describe('Company Contact', function () {

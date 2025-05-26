@@ -8,15 +8,22 @@ use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(['data' => Company::all()], 200);
+        $companies = Company::query();
+
+        if ($request->has('withTrashed') && $request->input('withTrashed') == 'true') {
+            $companies->withTrashed();
+        }
+
+        return response()->json(['data' => $companies->get()], 200);
     }
 
     /**
