@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
-use Illuminate\Support\Facades\Request;
+use App\Services\ContactService;
+use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, ContactService $contactService)
     {
-        return response()->json(['data' => Contact::all()], 200);
+        $contacts = $contactService->searchAndFilter($request);
+
+        return response()->json(['data' => $contacts], 200);
     }
 
     /**
@@ -57,7 +60,6 @@ class ContactController extends Controller
         return response()->json(null, 204);
     }
 
-    // TODO: test and unit test
     public function deals(Request $request, Contact $contact)
     {
         $deals = $contact->deals;
