@@ -74,4 +74,21 @@ describe('DealController', function () {
         $response->assertStatus(204);
         $this->assertSoftDeleted($deal);
     });
+
+    it('can show deleted deals when withTrashed parameter is true', function () {
+        $contact = Contact::factory()->create();
+        $deal = Deal::factory()->create([
+            'contact_id' => $contact->id,
+        ]);
+        $user = User::factory()->create();
+        $deal->delete();
+
+        $response = $this->actingAs($user)->getJson('/api/v1/deals?withTrashed=true');
+        $response->assertStatus(200);
+
+        $responseData = $response->json('data.0');
+
+        expect($responseData['id'])->toBe($deal->id);
+        expect($responseData['deleted_at'])->not->toBeNull();
+    });
 });

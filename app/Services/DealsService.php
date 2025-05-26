@@ -32,6 +32,10 @@ class DealsService
             $deals->where('title', 'LIKE', '%'.$request->input('title').'%');
         }
 
+        if ($request->has('withTrashed') && $request->input('withTrashed') == 'true') {
+            $deals->withTrashed();
+        }
+
         return $deals->get();
     }
 }
