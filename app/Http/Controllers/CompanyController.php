@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostCompanyContact;
 use App\Http\Requests\PostCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Request;
 
 class CompanyController extends Controller
 {
@@ -58,17 +58,18 @@ class CompanyController extends Controller
         return response()->json(null, 204);
     }
 
-    // TOD: test and unit test
-    public function attachContact(Request $request, Company $company)
+    public function attachContact(PostCompanyContact $request, Company $company)
     {
-        if ($request->has('contact_id')) {
+        if ($request->filled('contact_id')) {
             $contact = Contact::find($request->input('contact_id'));
-        } else {
-            $contact = Contact::create($request->all());
-        }
 
-        $contact->company()->associate($company);
-        $contact->save();
+            $contact->company()->associate($company);
+            $contact->save();
+        } else {
+            $validatedData = $request->validated();
+            $validatedData['company_id'] = $company->id;
+            $contact = Contact::create($validatedData);
+        }
 
         return response()->json($contact, 201);
     }
