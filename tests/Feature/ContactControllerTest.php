@@ -2,6 +2,7 @@
 
 use App\Models\Company;
 use App\Models\Contact;
+use App\Models\Deal;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -82,5 +83,28 @@ describe('ContactController', function () {
     it('should return 404 for non-existent contact', function () {
         $response = $this->actingAs($this->user)->get('/api/v1/contacts/999999');
         $response->assertStatus(404);
+    });
+
+    it('returns array of deals for a specific contact', function () {
+
+        $contact = Contact::factory()->create([
+            'company_id' => $this->company->id,
+        ]);
+
+        $deals = Deal::factory()->count(3)->create([
+            'contact_id' => $contact->id,
+        ]);
+
+        $response = $this->actingAs($this->user)->get("/api/v1/contacts/{$contact->id}/deals");
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure(['data']);
+
+        $this->assertCount(3, $response->json('data'));
+
+        foreach ($deals as $deal) {
+            $response->assertJsonPath('data.*.id', fn ($ids) => in_array($deal->id, $ids));
+        }
     });
 });

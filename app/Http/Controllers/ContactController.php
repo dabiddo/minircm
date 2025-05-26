@@ -62,6 +62,6 @@ class ContactController extends Controller
     {
         $deals = $contact->deals;
 
-        return response()->json($deals);
+        return response()->json(['data' => $deals]);
     }
 }
