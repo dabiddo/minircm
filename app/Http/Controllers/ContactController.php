@@ -148,9 +148,9 @@ class ContactController extends Controller
      *         description="ID of contact to return",
      *         required=true,
      *
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
+     *        @OA\Schema(
+     *            type="string",
+     *            example="f47ac10b-58cc-4372-a567-0e02b2c3d479"
      *         )
      *     ),
      *

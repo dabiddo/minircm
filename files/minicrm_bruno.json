@@ -1,0 +1,442 @@
+{
+  "name": "minicrm",
+  "version": "1",
+  "items": [
+    {
+      "type": "folder",
+      "name": "Auth",
+      "items": [
+        {
+          "type": "http",
+          "name": "Register",
+          "seq": 1,
+          "request": {
+            "url": "{{url}}/register",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"name\":\"john doe\",\n  \"email\":\"jdoe@example.com\",\n  \"password\":\"cocacola1\",\n  \"password_confirmation\":\"cocacola1\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "Companies",
+      "items": [
+        {
+          "type": "http",
+          "name": "Company by ID",
+          "seq": 3,
+          "request": {
+            "url": "{{url}}/v1/companies/1",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "json": "{\n  \"name\":\"Wayne Industries\",\n  \"domain\":\"R&D\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "List Companies",
+          "seq": 2,
+          "request": {
+            "url": "{{url}}/v1/companies",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "json": "{\n  \"name\":\"Wayne Industries\",\n  \"domain\":\"R&D\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "New Company",
+          "seq": 1,
+          "request": {
+            "url": "{{url}}/v1/companies",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"name\":\"Wayne Industries\",\n  \"domain\":\"R&D\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Update Company",
+          "seq": 4,
+          "request": {
+            "url": "{{url}}/v1/companies/1",
+            "method": "PATCH",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"domain\":\"IT\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "Contacts",
+      "items": [
+        {
+          "type": "http",
+          "name": "Get Contact by ID",
+          "seq": 3,
+          "request": {
+            "url": "{{url}}/v1/contacts/1",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"company_id\":1,\n  \"first_name\":\"John\",\n  \"last_name\":\"Doe\",\n  \"email\":\"jdoe@example.com\",\n  \"phone_number\":\"12312331\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Get Contacts",
+          "seq": 2,
+          "request": {
+            "url": "{{url}}/v1/contacts",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "json": "{\n  \"company_id\":1,\n  \"first_name\":\"John\",\n  \"last_name\":\"Doe\",\n  \"email\":\"jdoe@example.com\",\n  \"phone_number\":\"12312331\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "New Contact",
+          "seq": 1,
+          "request": {
+            "url": "{{url}}/v1/companies/1/contacts",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"first_name\":\"John\",\n  \"last_name\":\"Doe\",\n  \"email\":\"jdoe@example.com\",\n  \"phone_number\":\"12312331\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Search Contacts",
+          "seq": 5,
+          "request": {
+            "url": "{{url}}/v1/contacts?email=johndoe@example.com",
+            "method": "GET",
+            "headers": [],
+            "params": [
+              {
+                "name": "email",
+                "value": "johndoe@example.com",
+                "type": "query",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"company_id\":1,\n  \"first_name\":\"John\",\n  \"last_name\":\"Doe\",\n  \"email\":\"jdoe@example.com\",\n  \"phone_number\":\"12312331\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "update Contact",
+          "seq": 4,
+          "request": {
+            "url": "{{url}}/v1/companies/1/contacts/1",
+            "method": "PATCH",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"first_name\":\"John\",\n  \"last_name\":\"Doert\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Get Contact Deals",
+          "seq": 6,
+          "request": {
+            "url": "{{url}}/v1/contacts/1/deals",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"company_id\":1,\n  \"first_name\":\"John\",\n  \"last_name\":\"Doe\",\n  \"email\":\"jdoe@example.com\",\n  \"phone_number\":\"12312331\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "Deals",
+      "items": [
+        {
+          "type": "http",
+          "name": "Get Contact Deals",
+          "seq": 1,
+          "request": {
+            "url": "{{url}}/v1/contacts/1/deals",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "New Deal",
+          "seq": 2,
+          "request": {
+            "url": "{{url}}/v1/contacts/1/deals",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"title\":\"New Deal\",\n  \"amount\":5444.1,\n  \"currency\":\"USD\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Update Deal",
+          "seq": 3,
+          "request": {
+            "url": "{{url}}/v1/contacts/1/deals/1",
+            "method": "PATCH",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n \"status\":\"closed-won\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "auth": {
+              "mode": "bearer",
+              "bearer": {
+                "token": "{{token}}"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "activeEnvironmentUid": "KmSTk8kuSijMPl5MRXo0X",
+  "environments": [
+    {
+      "variables": [
+        {
+          "name": "url",
+          "value": "http://localhost/api",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "token",
+          "value": "1|bJLiezsceMtb1s5SgcCLeyFCXwu4CJcWJVZDTd349cbfe9f7",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        }
+      ],
+      "name": "localhost"
+    }
+  ],
+  "brunoConfig": {
+    "version": "1",
+    "name": "minicrm",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
+  }
+}

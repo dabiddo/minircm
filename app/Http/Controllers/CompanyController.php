@@ -139,8 +139,8 @@ class CompanyController extends Controller
      *         required=true,
      *
      *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
+     *            type="string",
+     *            example="f47ac10b-58cc-4372-a567-0e02b2c3d479"
      *         )
      *     ),
      *

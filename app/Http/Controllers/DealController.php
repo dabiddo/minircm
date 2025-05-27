@@ -137,7 +137,10 @@ class DealController extends Controller
      *         description="ID of the deal",
      *         required=true,
      *
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(
+     *            type="string",
+     *            example="f47ac10b-58cc-4372-a567-0e02b2c3d479"
+     *         )
      *     ),
      *
      *     @OA\Response(
