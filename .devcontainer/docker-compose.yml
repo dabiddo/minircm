@@ -22,7 +22,7 @@ services:
       - "1025:1025"
       - "8025:8025"
   mysql:
-    image: mysql:latest
+    image: mysql:8.0-bookworm
     environment:
       MYSQL_ROOT_PASSWORD: dbroot
       MYSQL_DATABASE: ${DB_DATABASE}
