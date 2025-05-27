@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Company::class);
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->index();
             $table->string('phone_number');
             $table->timestamps();
             $table->softDeletes();
