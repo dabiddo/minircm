@@ -186,3 +186,73 @@ describe('Company Contact', function () {
             ->assertJsonValidationErrors(['first_name', 'last_name', 'email', 'phone_number']);
     });
 });
+
+describe('Company Contact', function () {
+    it('can attach an existing contact to a company', function () {
+
+        $user = User::factory()->create();
+        $company = Company::factory()->create();
+        $contact = Contact::factory()->create();
+
+        $payload = [
+            'contact_id' => $contact->id,
+        ];
+
+        $response = $this->actingAs($user)
+            ->postJson("/api/v1/companies/{$company->id}/contacts", $payload);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'id' => $contact->id,
+                'company_id' => $company->id,
+            ]);
+
+        $this->assertDatabaseHas('contacts', [
+            'id' => $contact->id,
+            'company_id' => $company->id,
+        ]);
+    });
+
+    it('can create and attach a new contact to a company', function () {
+
+        $user = User::factory()->create();
+        $company = Company::factory()->create();
+
+        $payload = [
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'email' => 'john.doe@example.com',
+            'phone_number' => '123-4567',
+        ];
+
+        $response = $this->actingAs($user)
+            ->postJson("/api/v1/companies/{$company->id}/contacts", $payload);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'email' => 'john.doe@example.com',
+                'company_id' => $company->id,
+            ]);
+
+        $this->assertDatabaseHas('contacts', [
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'email' => 'john.doe@example.com',
+            'phone_number' => '123-4567',
+            'company_id' => $company->id,
+        ]);
+    });
+
+    it('validates required fields when creating a new contact', function () {
+        $user = User::factory()->create();
+        $company = Company::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->postJson("/api/v1/companies/{$company->id}/contacts", []);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['first_name', 'last_name', 'email', 'phone_number']);
+    });
+});

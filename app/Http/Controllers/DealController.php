@@ -8,10 +8,60 @@ use App\Models\Deal;
 use App\Services\DealsService;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Tag(
+ *     name="Deal",
+ *     description="Deal Endpoints"
+ * )
+ */
 class DealController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/v1/deals",
+     *     summary="Get list of deals",
+     *     description="Returns list of deals with optional status filter",
+     *     operationId="getDeals",
+     *     tags={"Deal"},
+     *     security={{"bearerAuth": {}}},
+     *
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         description="Filter deals by status",
+     *         required=false,
+     *
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"open", "closed-won", "closed-lost"}
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *
+     *         @OA\JsonContent(
+     *             type="object",
+     *
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *
+     *                 @OA\Items(ref="#/components/schemas/Deal")
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     )
+     * )
      */
     public function index(Request $request, DealsService $dealsService)
     {
@@ -21,7 +71,48 @@ class DealController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/v1/deals",
+     *     summary="Create a new deal",
+     *     description="Creates a new deal with the provided data",
+     *     tags={"Deal"},
+     *     security={{"bearerAuth": {}}},
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *
+     *         @OA\JsonContent(
+     *             required={"title", "amount", "contact_id", "status"},
+     *
+     *             @OA\Property(property="contact_id", type="integer", example=1, description="Reference to Contact model"),
+     *             @OA\Property(property="title", type="string", example="New Business Deal"),
+     *             @OA\Property(property="amount", type="number", format="float", example=10000.00),
+     *             @OA\Property(property="currencly", type="string", example="USD"),
+     *             @OA\Property(property="status", type="string", enum={"open", "closed-won", "closed-lost"}, example="open"),
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=201,
+     *         description="Deal created successfully",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="data", type="object",
+     *                 ref="#/components/schemas/Deal"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function store(PostDealRequest $request)
     {
@@ -32,7 +123,42 @@ class DealController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/v1/deals/{deal}",
+     *     summary="Display a specific deal",
+     *     description="Retrieves a deal by its ID",
+     *     operationId="showDeal",
+     *     tags={"Deal"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="deal",
+     *         in="path",
+     *         description="ID of the deal",
+     *         required=true,
+     *
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="data", ref="#/components/schemas/Deal")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Deal not found"
+     *     )
+     * )
      */
     public function show(Deal $deal)
     {
@@ -40,7 +166,69 @@ class DealController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/v1/deals/{deal}",
+     *     summary="Update a deal",
+     *     description="Update an existing deal's information",
+     *     operationId="updateDeal",
+     *     tags={"Deal"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="deal",
+     *         in="path",
+     *         description="ID of deal to update",
+     *         required=true,
+     *
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *
+     *          @OA\JsonContent(
+     *         required={"contact_id","title", "amount", "currency", "status"},
+     *
+     *         @OA\Property(property="contact_id", type="integer", example=1),
+     *         @OA\Property(property="title", type="string", example="New Business Deal"),
+     *         @OA\Property(property="amount", type="number", example=1000.00),
+     *         @OA\Property(property="currency", type="string", example="USD"),
+     *         @OA\Property(property="status", type="string", example="open"),
+     *      ),
+
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Deal updated successfully",
+     *
+     *         @OA\JsonContent(
+     *             type="object",
+     *
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Deal"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Deal not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function update(UpdateDealRequest $request, Deal $deal)
     {
@@ -50,7 +238,35 @@ class DealController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/v1/deals/{deal}",
+     *     summary="Delete a deal",
+     *     description="Deletes an existing deal",
+     *     operationId="deleteDeal",
+     *     tags={"Deal"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="deal",
+     *         in="path",
+     *         description="ID of deal to delete",
+     *         required=true,
+     *
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=204,
+     *         description="Deal deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Deal not found"
+     *     )
+     * )
      */
     public function destroy(Deal $deal)
     {
