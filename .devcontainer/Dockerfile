@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp
+FROM dunglas/frankenphp:1.6-php8.2-bookworm
 
 # Create a non-root user and set permissions
 ARG USERNAME=vscode
