@@ -149,7 +149,7 @@ DB_HOST=mysql #docker-compose name
 
 DB_PORT=3306
 
-DB_DATABASE=testing_database
+DB_DATABASE=testing #keep this name
 
 DB_USERNAME=root
 
