@@ -364,8 +364,8 @@
                         "description": "ID of company to return",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string",
+                            "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
                         }
                     }
                 ],
@@ -826,8 +826,8 @@
                         "description": "ID of contact to return",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string",
+                            "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
                         }
                     }
                 ],
@@ -1174,7 +1174,8 @@
                         "description": "ID of the deal",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string",
+                            "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
                         }
                     }
                 ],
