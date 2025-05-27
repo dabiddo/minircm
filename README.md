@@ -24,9 +24,8 @@ Mini CRM is a Laravel 12 REST API that simulates a basic module for storing and 
 1. Clone the repository:
 
 ```bash
-
 git clone <repository-url>
-
+```
   
 
 2. Open the project in VSCode. You will be prompted to reopen in the container.
