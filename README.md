@@ -26,13 +26,8 @@ Mini CRM is a Laravel 12 REST API that simulates a basic module for storing and 
 ```bash
 git clone <repository-url>
 ```
-  
 
-2. Open the project in VSCode. You will be prompted to reopen in the container.
-
-  
-
-3. Once the container is built and running, copy the environment file:
+2. Once the container is built and running, copy the environment file:
 
   
 
@@ -42,7 +37,13 @@ cp .env.example .env
 
 ```
 
-4. Install dependencies and generate application key:
+3. Make a partial copy of the DB settings and store them in the `.devcontainer/.env`
+  
+
+4. Open the project in VSCode. You will be prompted to reopen in the container.
+
+
+5. Install dependencies and generate application key:
 
   
 
@@ -54,7 +55,7 @@ composer install && php artisan key:generate
 
   
 
-5. Run database migrations:
+6. Run database migrations:
 
 ```bash
 
