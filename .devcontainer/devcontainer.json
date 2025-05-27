@@ -5,10 +5,6 @@
     "dockerComposeFile": [
         "docker-compose.yml"
     ],
-    "mounts": [
-        "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached",
-        "source=${localEnv:HOME}/.ssh/dabiddo,target=/home/vscode/.ssh/id_rsa,type=bind,consistency=cached"
-    ],
     "remoteEnv": {
         "XDEBUG_MODE": "debug",
         "XDEBUG_CONFIG": "client_host=host.docker.internal client_port=9003"
