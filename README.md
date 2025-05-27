@@ -62,6 +62,7 @@ composer install && php artisan key:generate
 php artisan migrate
 
 ```
+You can check if the application is running by going to the address `http://localhost/up`
 
   
 
