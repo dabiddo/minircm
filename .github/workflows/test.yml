@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: Pest Tests
+    name: Pest PHP Tests
     runs-on: ubuntu-latest
     
     services:
@@ -42,7 +42,7 @@ jobs:
         echo "DB_PASSWORD=${{ secrets.DB_PASSWORD || 'github_actions' }}" >> .env
 
     - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer install --prefer-dist --no-interaction --no-progress
 
     - name: Generate key
       run: php artisan key:generate
@@ -55,5 +55,25 @@ jobs:
         php artisan config:clear
         php artisan migrate --force
 
+    - name: Create test directories if they don't exist
+      run: |
+        mkdir -p tests/Unit
+        mkdir -p tests/Feature
+        touch tests/Unit/.gitkeep
+        touch tests/Feature/.gitkeep
+
+    - name: Install Pest if not already installed
+      run: |
+        if ! [ -f vendor/bin/pest ]; then
+          composer require pestphp/pest --dev
+          php artisan pest:install
+        fi
+
     - name: Execute tests
-      run: vendor/bin/pest
+      run: |
+        if [ -f vendor/bin/pest ]; then
+          vendor/bin/pest
+        else
+          echo "Pest not found, falling back to PHPUnit"
+          vendor/bin/phpunit
+        fi
