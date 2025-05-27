@@ -82,7 +82,7 @@ class ContactController extends Controller
      *         @OA\JsonContent(
      *             required={"company_id","first_name", "last_name", "email", "phone_number"},
      *
-     *             @OA\Property(property="company_id", type="integer", example=1),
+     *             @OA\Property(property="company_id", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
      *             @OA\Property(property="first_name", type="string", example="John"),
      *             @OA\Property(property="last_name", type="string", example="Doe"),
      *             @OA\Property(property="email", type="string", format="email", example="john.doe@example.com"),
@@ -97,7 +97,7 @@ class ContactController extends Controller
      *         @OA\JsonContent(
      *
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="id", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
      *                 @OA\Property(property="first_name", type="string", example="John"),
      *                 @OA\Property(property="last_name", type="string", example="Doe"),
      *                 @OA\Property(property="email", type="string", example="john.doe@example.com"),
@@ -207,7 +207,7 @@ class ContactController extends Controller
      *         @OA\JsonContent(
      *             required={"company_id","first_name", "last_name", "email"},
      *
-     *             @OA\Property(property="company_id", type="integer", example=1),
+     *             @OA\Property(property="company_id", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
      *             @OA\Property(property="first_name", type="string", example="John"),
      *             @OA\Property(property="last_name", type="string", example="Doe"),
      *             @OA\Property(property="email", type="string", format="email", example="john.doe@example.com"),
@@ -221,7 +221,7 @@ class ContactController extends Controller
      *
      *         @OA\JsonContent(
      *
-     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="id", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
      *             @OA\Property(property="first_name", type="string", example="John"),
      *             @OA\Property(property="last_name", type="string", example="Doe"),
      *             @OA\Property(property="email", type="string", format="email", example="john.doe@example.com"),

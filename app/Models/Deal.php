@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *     description="Deal model",
  *     required={"id", "contact_id","title","amount","currency","status"},
  *
- *     @OA\Property(property="id", type="integer", format="int64", example=1),
+ *     @OA\Property(property="id", type="string", format="uuid", example="f47ac10b-58cc-4372-a567-0e02b2c3d479"),
  *     @OA\Property(property="contact_id", type="integer", format="int64", example=1),
  *     @OA\Property(property="title", type="string", example="Business Deal"),
  *     @OA\Property(property="amount", type="number", format="float", example=1000.00),
