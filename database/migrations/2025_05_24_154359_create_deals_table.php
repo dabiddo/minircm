@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('amount');
             $table->string('currency');
-            $table->enum('status', ['open', 'closed-won', 'closed-lost'])->default('open');
+            $table->enum('status', ['open', 'closed-won', 'closed-lost'])->default('open')->index();
             $table->timestamps();
             $table->softDeletes();
         });
