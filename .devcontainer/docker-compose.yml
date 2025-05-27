@@ -25,14 +25,16 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: dbroot
-      MYSQL_DATABASE: minicrm
-      MYSQL_USER: dbuser
-      MYSQL_PASSWORD: dbpassword
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - '3306:3306'
     volumes:
       - db-data:/var/lib/mysql:cached
       - ./mysql-init:/docker-entrypoint-initdb.d
+    env_file:
+      - .env
 
 # Volumes needed for Caddy certificates and configuration
 volumes:
