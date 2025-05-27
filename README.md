@@ -193,3 +193,6 @@ Composer
 Other required extensions and tools
 
 Once the container is running, you can start developing without additional setup.
+
+## Files
+You can find a copy of the Postman / Bruno JSON files inside the `files/` directory to manually test the API althoug using the Open API address is recommended.
