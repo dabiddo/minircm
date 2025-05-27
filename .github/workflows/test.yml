@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: Pest Tests
+    name: Pest PHP Tests
     runs-on: ubuntu-latest
     
     services:
@@ -54,6 +54,13 @@ jobs:
       run: |
         php artisan config:clear
         php artisan migrate --force
+
+    - name: Check test directories
+      run: |
+        echo "Available directories:"
+        ls -la tests/
+        echo "Pest configuration:"
+        cat phpunit.xml || echo "phpunit.xml not found"
 
     - name: Execute tests
       run: vendor/bin/pest
