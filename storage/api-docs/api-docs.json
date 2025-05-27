@@ -297,8 +297,8 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "type": "string",
+                                                    "example": "123e4567-e89b-12d3-a456-426614174000"
                                                 },
                                                 "name": {
                                                     "type": "string",
@@ -443,8 +443,8 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "type": "string",
+                                                    "example": "123e4567-e89b-12d3-a456-426614174000"
                                                 },
                                                 "name": {
                                                     "type": "string",
@@ -557,7 +557,8 @@
                                         "properties": {
                                             "contact_id": {
                                                 "description": "ID of existing contact",
-                                                "type": "integer"
+                                                "type": "string",
+                                                "example": "123e4567-e89b-12d3-a456-426614174000"
                                             }
                                         },
                                         "type": "object"
@@ -607,7 +608,7 @@
                                 "schema": {
                                     "properties": {
                                         "id": {
-                                            "type": "integer"
+                                            "type": "string"
                                         },
                                         "name": {
                                             "type": "string"
@@ -706,8 +707,8 @@
                                 ],
                                 "properties": {
                                     "company_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                        "type": "string",
+                                        "example": "123e4567-e89b-12d3-a456-426614174000"
                                     },
                                     "first_name": {
                                         "type": "string",
@@ -742,8 +743,8 @@
                                         "data": {
                                             "properties": {
                                                 "id": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "type": "string",
+                                                    "example": "123e4567-e89b-12d3-a456-426614174000"
                                                 },
                                                 "first_name": {
                                                     "type": "string",
@@ -892,8 +893,8 @@
                                 ],
                                 "properties": {
                                     "company_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                        "type": "string",
+                                        "example": "123e4567-e89b-12d3-a456-426614174000"
                                     },
                                     "first_name": {
                                         "type": "string",
@@ -926,8 +927,8 @@
                                 "schema": {
                                     "properties": {
                                         "id": {
-                                            "type": "integer",
-                                            "example": 1
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
                                         },
                                         "first_name": {
                                             "type": "string",
@@ -1097,8 +1098,8 @@
                                 "properties": {
                                     "contact_id": {
                                         "description": "Reference to Contact model",
-                                        "type": "integer",
-                                        "example": 1
+                                        "type": "string",
+                                        "example": "123e4567-e89b-12d3-a456-426614174000"
                                     },
                                     "title": {
                                         "type": "string",
@@ -1238,8 +1239,8 @@
                                 ],
                                 "properties": {
                                     "contact_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                        "type": "string",
+                                        "example": "123e4567-e89b-12d3-a456-426614174000"
                                     },
                                     "title": {
                                         "type": "string",
@@ -1344,8 +1345,9 @@
                 ],
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "example": 1
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
                     },
                     "name": {
                         "type": "string",
@@ -1378,10 +1380,9 @@
                 ],
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "readOnly": "true",
-                        "example": 1
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
                     },
                     "company_id": {
                         "type": "integer",
@@ -1440,9 +1441,9 @@
                 ],
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
                     },
                     "contact_id": {
                         "type": "integer",

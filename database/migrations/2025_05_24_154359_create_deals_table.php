@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('deals', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignIdFor(Contact::class);
             $table->string('title');
             $table->string('amount');

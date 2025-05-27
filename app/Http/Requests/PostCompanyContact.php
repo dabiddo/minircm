@@ -22,7 +22,7 @@ class PostCompanyContact extends FormRequest
     public function rules(): array
     {
         return [
-            'contact_id' => 'sometimes|integer|exists:contacts,id',
+            'contact_id' => 'sometimes|string|exists:contacts,id',
             'first_name' => 'required_without:contact_id|string|max:255',
             'last_name' => 'required_without:contact_id|string|max:255',
             'email' => 'required_without:contact_id|email|unique:contacts,email',
