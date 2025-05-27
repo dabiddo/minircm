@@ -84,7 +84,7 @@ class DealController extends Controller
      *         @OA\JsonContent(
      *             required={"title", "amount", "contact_id", "status"},
      *
-     *             @OA\Property(property="contact_id", type="integer", example=1, description="Reference to Contact model"),
+     *             @OA\Property(property="contact_id", type="string", example="123e4567-e89b-12d3-a456-426614174000", description="Reference to Contact model"),
      *             @OA\Property(property="title", type="string", example="New Business Deal"),
      *             @OA\Property(property="amount", type="number", format="float", example=10000.00),
      *             @OA\Property(property="currencly", type="string", example="USD"),
@@ -189,7 +189,7 @@ class DealController extends Controller
      *          @OA\JsonContent(
      *         required={"contact_id","title", "amount", "currency", "status"},
      *
-     *         @OA\Property(property="contact_id", type="integer", example=1),
+     *         @OA\Property(property="contact_id", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
      *         @OA\Property(property="title", type="string", example="New Business Deal"),
      *         @OA\Property(property="amount", type="number", example=1000.00),
      *         @OA\Property(property="currency", type="string", example="USD"),

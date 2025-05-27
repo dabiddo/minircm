@@ -95,7 +95,7 @@ class CompanyController extends Controller
      *         @OA\JsonContent(
      *
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="id", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
      *                 @OA\Property(property="name", type="string", example="Acme Corp"),
      *                 @OA\Property(property="domain", type="string", example="www.acme.com"),
      *                 @OA\Property(property="created_at", type="string", format="datetime", example="2023-01-01T00:00:00.000000Z"),
@@ -204,7 +204,7 @@ class CompanyController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="id", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
      *                 @OA\Property(property="name", type="string", example="Acme Corp"),
      *                 @OA\Property(property="domain", type="string", example="www.acme.com"),
      *                 @OA\Property(property="updated_at", type="string", format="datetime")
@@ -308,7 +308,7 @@ class CompanyController extends Controller
      *                     required={"contact_id"},
      *                     properties={
      *
-     *                         @OA\Property(property="contact_id", type="integer", description="ID of existing contact")
+     *                         @OA\Property(property="contact_id", type="string", description="ID of existing contact", example="123e4567-e89b-12d3-a456-426614174000")
      *                     }
      *                 ),
      *
@@ -334,7 +334,7 @@ class CompanyController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *
-     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="id", type="string"),
      *             @OA\Property(property="name", type="string"),
      *             @OA\Property(property="email", type="string"),
      *             @OA\Property(property="company_id", type="integer")

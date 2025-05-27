@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *     title="Company",
  *     required={"id", "name","domain"},
  *
- *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="id", type="string", format="uuid", example="f47ac10b-58cc-4372-a567-0e02b2c3d479"),
  *     @OA\Property(property="name", type="string", example="Wayne Tech"),
  *     @OA\Property(property="domain", type="string", example="R&D"),
  *     @OA\Property(property="created_at", type="string", format="date-time", example="2023-01-01T00:00:00.000000Z"),
