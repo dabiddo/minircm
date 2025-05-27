@@ -20,7 +20,7 @@ class ContactController extends Controller
      * @OA\Get(
      *     path="/api/v1/contacts",
      *     summary="Get list of contacts",
-     *     description="Returns paginated list of contacts with optional search and filter",
+     *     description="Returns list of contacts with optional search and filter",
      *     operationId="getContacts",
      *     tags={"Contact"},
      *     security={{ "bearerAuth": {} }},

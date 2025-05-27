@@ -639,7 +639,7 @@
                     "Contact"
                 ],
                 "summary": "Get list of contacts",
-                "description": "Returns paginated list of contacts with optional search and filter",
+                "description": "Returns list of contacts with optional search and filter",
                 "operationId": "getContacts",
                 "parameters": [
                     {
@@ -1019,6 +1019,318 @@
                     }
                 ]
             }
+        },
+        "/api/v1/deals": {
+            "get": {
+                "tags": [
+                    "Deal"
+                ],
+                "summary": "Get list of deals",
+                "description": "Returns list of deals with optional status filter",
+                "operationId": "getDeals",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter deals by status",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "open",
+                                "closed-won",
+                                "closed-lost"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Deal"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Deal"
+                ],
+                "summary": "Create a new deal",
+                "description": "Creates a new deal with the provided data",
+                "operationId": "1ee5e5479f52103039be95fa057678bd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "amount",
+                                    "contact_id",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "contact_id": {
+                                        "description": "Reference to Contact model",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "New Business Deal"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 10000
+                                    },
+                                    "currencly": {
+                                        "type": "string",
+                                        "example": "USD"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "open",
+                                            "closed-won",
+                                            "closed-lost"
+                                        ],
+                                        "example": "open"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Deal created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Deal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/deals/{deal}": {
+            "get": {
+                "tags": [
+                    "Deal"
+                ],
+                "summary": "Display a specific deal",
+                "description": "Retrieves a deal by its ID",
+                "operationId": "showDeal",
+                "parameters": [
+                    {
+                        "name": "deal",
+                        "in": "path",
+                        "description": "ID of the deal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Deal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Deal not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Deal"
+                ],
+                "summary": "Update a deal",
+                "description": "Update an existing deal's information",
+                "operationId": "updateDeal",
+                "parameters": [
+                    {
+                        "name": "deal",
+                        "in": "path",
+                        "description": "ID of deal to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "contact_id",
+                                    "title",
+                                    "amount",
+                                    "currency",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "contact_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "New Business Deal"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 1000
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "example": "USD"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "open"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Deal updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Deal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Deal not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Deal"
+                ],
+                "summary": "Delete a deal",
+                "description": "Deletes an existing deal",
+                "operationId": "deleteDeal",
+                "parameters": [
+                    {
+                        "name": "deal",
+                        "in": "path",
+                        "description": "ID of deal to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deal deleted successfully"
+                    },
+                    "404": {
+                        "description": "Deal not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -1114,6 +1426,64 @@
                     }
                 },
                 "type": "object"
+            },
+            "Deal": {
+                "title": "Deal",
+                "description": "Deal model",
+                "required": [
+                    "id",
+                    "contact_id",
+                    "title",
+                    "amount",
+                    "currency",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "contact_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Business Deal"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "USD"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2023-01-01T00:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2023-01-01T00:00:00Z"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -1139,6 +1509,10 @@
         {
             "name": "Contact",
             "description": "Contact Endpoints"
+        },
+        {
+            "name": "Deal",
+            "description": "Deal Endpoints"
         }
     ]
 }
