@@ -281,6 +281,76 @@ class CompanyController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/company/{company}/contact",
+     *     summary="Attach new or existing contact to a company",
+     *     tags={"Company"},
+     *
+     *     @OA\Parameter(
+     *         name="company",
+     *         in="path",
+     *         required=true,
+     *         description="Company ID",
+     *
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Either provide an existing contact_id or create a new contact with full details",
+     *
+     *         @OA\JsonContent(
+     *             oneOf={
+     *
+     *                 @OA\Schema(
+     *                     type="object",
+     *                     required={"contact_id"},
+     *                     properties={
+     *
+     *                         @OA\Property(property="contact_id", type="integer", description="ID of existing contact")
+     *                     }
+     *                 ),
+     *
+     *                 @OA\Schema(
+     *                     type="object",
+     *                     required={"first_name", "last_name", "email", "phone_number"},
+     *                     properties={
+     *
+     *                         @OA\Property(property="first_name", type="string", description="Contact's first name", example="John"),
+     *                         @OA\Property(property="last_name", type="string", description="Contact's last name", example="Doe"),
+     *                         @OA\Property(property="email", type="string", format="email", description="Contact's email address", example="jdoe@example.com"),
+     *                         @OA\Property(property="phone_number", type="string", description="Contact's phone number", example="+12345677")
+     *                     }
+     *                 )
+     *             }
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=201,
+     *         description="Contact successfully attached",
+     *
+     *         @OA\JsonContent(
+     *             type="object",
+     *
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="company_id", type="integer")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Company or Contact not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
+     */
     public function attachContact(PostCompanyContact $request, Company $company)
     {
         if ($request->filled('contact_id')) {
