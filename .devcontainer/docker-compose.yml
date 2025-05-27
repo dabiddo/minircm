@@ -16,11 +16,6 @@ services:
       - ../:/app
       - caddy_data:/data
       - caddy_config:/config
-  mailhog:
-    image: mailhog/mailhog:latest
-    ports:
-      - "1025:1025"
-      - "8025:8025"
   mysql:
     image: mysql:8.0-bookworm
     environment:
